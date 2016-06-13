@@ -20,7 +20,6 @@ public class EnemyBehaviour : MonoBehaviour
     void Awake()
     {
         myTransform = transform;
-        maxdistance = 2;
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         target = player.transform;
         health = 100f;
@@ -44,13 +43,12 @@ public class EnemyBehaviour : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (Vector3.Distance(target.position, myTransform.position) > maxdistance)
-        {
+        
             //Move towards target
             transform.LookAt(new Vector3(target.position.x, target.position.y + 1, target.position.z));
             myTransform.position += myTransform.forward * moveSpeed * Time.deltaTime;
 
-        }
+        
 
     }
 }
