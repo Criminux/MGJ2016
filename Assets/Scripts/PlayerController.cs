@@ -11,6 +11,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private WeaponController CurrentGun;
     private bool shooting;
+    private float rotateHorizontal;
+    private float rotateVertical;
+    private float moveHorizontal;
+    private float moveVertical;
 
     // Use this for initialization
     void Start()
@@ -30,14 +34,15 @@ public class PlayerController : MonoBehaviour
     public void Update()
     {
         CurrentGun.Shooting = Input.GetAxis("Fire") != 0;
+        rotateHorizontal = Input.GetAxis("HorizontalControllerRotation");
+        rotateVertical = Input.GetAxis("VerticalControllerRotation");
+        moveHorizontal = Input.GetAxis("HorizontalControllerMovement");
+        moveVertical = Input.GetAxis("VerticalControllerMovement");
     }
 
     private void Rotate()
     {
-        float moveHorizontal = Input.GetAxis("HorizontalControllerRotation");
-        float moveVertical = Input.GetAxis("VerticalControllerRotation");
-
-        Vector3 rotationTarget = this.transform.position + new Vector3(moveHorizontal, 0, moveVertical);
+        Vector3 rotationTarget = this.transform.position + new Vector3(rotateHorizontal, 0, rotateVertical);
 
         Transform child = transform.GetChild(0);
 
@@ -51,9 +56,6 @@ public class PlayerController : MonoBehaviour
 
     void Move()
     {
-        float moveHorizontal = Input.GetAxis("HorizontalControllerMovement");
-        float moveVertical = Input.GetAxis("VerticalControllerMovement");
-
         Vector3 movement = new Vector3(moveHorizontal, 0, moveVertical) * speed;
 
         rb.velocity = new Vector3(movement.x, rb.velocity.y, movement.z);
