@@ -12,7 +12,7 @@ public class EnemyBehaviour : MonoBehaviour
     private int rotationSpeed;
     private int maxdistance;
 
-
+    private float health;
 
     private Transform myTransform;
 
@@ -21,24 +21,33 @@ public class EnemyBehaviour : MonoBehaviour
     {
         myTransform = transform;
         maxdistance = 2;
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        target = player.transform;
+        health = 100f;
+        
     }
 
     void OnCollisionEnter(Collision col)
     {
         if (col.gameObject.CompareTag("Bullet"))
         {
-            Destroy(gameObject);
+            health -= 20f;
+            
         }
     }
 
 
     void Update()
     {
+        if(health <= 0f)
+        {
+            Destroy(gameObject);
+        }
 
         if (Vector3.Distance(target.position, myTransform.position) > maxdistance)
         {
             //Move towards target
-            transform.LookAt(target.position);
+            transform.LookAt(new Vector3(target.position.x, target.position.y + 1, target.position.z));
             myTransform.position += myTransform.forward * moveSpeed * Time.deltaTime;
 
         }
