@@ -3,6 +3,7 @@ using System.Collections;
 
 public class EnemyBehaviour : MonoBehaviour
 {
+    private GameManager gameManager = GameManager.Instance;
 
     [SerializeField]
     private Transform target;
@@ -40,6 +41,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         if(health <= 0f)
         {
+            gameManager.EnemyKilled();
             Destroy(gameObject);
         }
 

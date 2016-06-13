@@ -29,6 +29,11 @@ public class GameManager : MonoBehaviour
         score = 0f;
     }
 
+    public void EnemyKilled()
+    {
+        score += 1000;
+    }
+
     void spawnEnemy()
     {
         enemyTimer -= Time.fixedDeltaTime;
@@ -54,6 +59,7 @@ public class GameManager : MonoBehaviour
     {
         spawnEnemy();
         updateScore();
+
         Debug.Log(score);
     }
 

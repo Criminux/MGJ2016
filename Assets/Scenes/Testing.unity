@@ -388,7 +388,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1107599181}
   m_LocalRotation: {x: 0.28624925, y: -0, z: -0, w: 0.9581552}
-  m_LocalPosition: {x: 0, y: 5.01, z: -12.68}
+  m_LocalPosition: {x: 0, y: 5.08, z: -14.95}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -406,7 +406,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Enemy: {fileID: 1000011053943966, guid: 0c9612cb342124641b1a8850006d1fec, type: 2}
-  enemyTimer: 5
+  enemyTimerValue: 5
+  scoreTimerValue: 2
 --- !u!4 &1185939801 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4000014137513202, guid: ce560887b3c0b9944845ae51772d834d,
