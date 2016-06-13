@@ -15,7 +15,7 @@ public class EnemyBehaviour : MonoBehaviour
 
 
     private Transform myTransform;
-        
+
 
     void Awake()
     {
@@ -25,10 +25,10 @@ public class EnemyBehaviour : MonoBehaviour
 
     void OnCollisionEnter(Collision col)
     {
-        if(col.gameObject.tag == "Bullet")
+        if (col.gameObject.CompareTag("Bullet"))
         {
             Destroy(gameObject);
-        }      
+        }
     }
 
 

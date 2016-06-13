@@ -5,19 +5,18 @@ using System;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField]
-    private Transform GunOutput;
     private Rigidbody rb;
     [SerializeField]
     private float speed;
     [SerializeField]
-    private GameObject obj;
+    private WeaponController CurrentGun;
     private bool shooting;
 
     // Use this for initialization
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        CurrentGun.SetAssociatedPlayer(transform.GetChild(0));
     }
 
     // Update is called once per frame
@@ -30,8 +29,7 @@ public class PlayerController : MonoBehaviour
 
     public void Update()
     {
-        shooting = Input.GetAxis("Fire") != 0;
-        Shoot();
+        CurrentGun.Shooting = Input.GetAxis("Fire") != 0;
     }
 
     private void Rotate()
@@ -60,13 +58,4 @@ public class PlayerController : MonoBehaviour
 
         rb.velocity = new Vector3(movement.x, rb.velocity.y, movement.z);
     }
-
-    void Shoot()
-    {
-        if (shooting)
-        {
-            Instantiate(obj, GunOutput.position, transform.GetChild(0).rotation);
-        }
-    }
-
 }
