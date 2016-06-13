@@ -20,12 +20,17 @@ public class GameManager : MonoBehaviour
     private float scoreTimerValue;
     private float scoreTimer;
 
+    [SerializeField]
+    private float spawnTimerReduceValue;
+    private float spawnTimerReduce;
+
     public void Awake()
     {
 
         instance = this;
         enemyTimer = enemyTimerValue;
         scoreTimer = scoreTimerValue;
+        spawnTimerReduce = spawnTimerReduceValue;
         score = 0f;
     }
 
@@ -36,12 +41,27 @@ public class GameManager : MonoBehaviour
 
     void spawnEnemy()
     {
-        enemyTimer -= Time.fixedDeltaTime;
+        enemyTimer -= Time.deltaTime;
         if (enemyTimer <= 0)
         {
             Vector3 enemyPosition = GetRandomVector();
             Instantiate(Enemy, enemyPosition, Quaternion.identity);
             enemyTimer = enemyTimerValue;
+        }
+    }
+
+    void spawnTimerReducer()
+    {
+        spawnTimerReduce -= Time.deltaTime;
+        if(spawnTimerReduce <= 0)
+        {
+            enemyTimerValue = enemyTimerValue - 0.2f;
+            if (enemyTimerValue <= 1)
+            {
+                enemyTimerValue = 1;
+            }
+            //enemyTimerValue = enemyTimer;
+            spawnTimerReduce = spawnTimerReduceValue;
         }
     }
 
@@ -59,6 +79,7 @@ public class GameManager : MonoBehaviour
     {
         spawnEnemy();
         updateScore();
+        spawnTimerReducer();
 
         Debug.Log(score);
     }
