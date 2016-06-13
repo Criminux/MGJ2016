@@ -17,6 +17,12 @@ public class EnemyBehaviour : MonoBehaviour
 
     private Transform myTransform;
 
+    //AudioStuff
+    [SerializeField]
+    private AudioClip die;
+    AudioSource audio;
+
+    private float deathDelay;
 
     void Awake()
     {
@@ -24,7 +30,9 @@ public class EnemyBehaviour : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         target = player.transform;
         health = 100f;
-        
+        audio = GetComponent<AudioSource>();
+
+        deathDelay = 2f;
     }
 
     void OnCollisionEnter(Collision col)
@@ -41,8 +49,16 @@ public class EnemyBehaviour : MonoBehaviour
     {
         if(health <= 0f)
         {
-            gameManager.EnemyKilled();
-            Destroy(gameObject);
+            deathDelay -= Time.fixedDeltaTime;
+            audio.Play();
+
+            if (deathDelay <= 0)
+            {
+                gameManager.EnemyKilled();
+
+                Destroy(gameObject);
+            }
+            
         }
 
         
