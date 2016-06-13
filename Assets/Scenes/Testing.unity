@@ -542,14 +542,17 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1107599181}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 314aa8466b520c940aad17a57fc54046, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Enemy: {fileID: 1000011053943966, guid: 0c9612cb342124641b1a8850006d1fec, type: 2}
-  enemyTimerValue: 0
-  scoreTimerValue: 0
+  enemyTimerValue: 5
+  score: 0
+  lives: 5
+  scoreTimerValue: 5
+  scoreMesh: {fileID: 1867960211}
 --- !u!1 &1136308802
 GameObject:
   m_ObjectHideFlags: 0
