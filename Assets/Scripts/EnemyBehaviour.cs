@@ -14,22 +14,19 @@ public class EnemyBehaviour : MonoBehaviour
     private int maxdistance;
 
     private float health;
-
-    private Transform myTransform;
-
+    
+    
 
     //AudioStuff
     [SerializeField]
     private AudioClip steps;
     new AudioSource audio;
-
-    void Awake()
+    
+    void Start()
     {
-        myTransform = transform;
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         target = player.transform;
         health = 100f;
-
         audio = GetComponent<AudioSource>();
     }
 
@@ -42,6 +39,11 @@ public class EnemyBehaviour : MonoBehaviour
             Destroy(col.gameObject);
             
         }
+
+        if(col.gameObject.CompareTag("Player"))
+        {
+            GameManager.Instance.RemoveLife();
+        }
     }
 
 
@@ -50,15 +52,13 @@ public class EnemyBehaviour : MonoBehaviour
         if(health <= 0f)
         {
             gameManager.EnemyKilled();
-           
             Destroy(gameObject);
-            
         }
 
         
             //Move towards target
-            transform.LookAt(new Vector3(target.position.x, target.position.y + 1, target.position.z));
-            myTransform.position += myTransform.forward * moveSpeed * Time.deltaTime;
+            transform.LookAt(new Vector3(target.position.x, transform.position.y, target.position.z));
+            transform.position += transform.forward * moveSpeed * Time.deltaTime;
 
         audio.UnPause();
         
