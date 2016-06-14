@@ -47,6 +47,7 @@ public class MenuController : MonoBehaviour
 
     int selectedButton;
     private float previousSelection;
+    private float previousSelectionGameOver;
 
     void Awake()
     {
@@ -80,25 +81,25 @@ public class MenuController : MonoBehaviour
     {
         float playerSelection = Input.GetAxis("VerticalControllerMovement");
         //print(playerSelection);
-        if (playerSelection < -0.2f && previousSelection > -0.2f)
+        if (playerSelection < -0.2f && previousSelectionGameOver > -0.2f)
         {
             selectedButton++;
             if (selectedButton > 1)
                 selectedButton = 0;
             UpdateSelectionGameOver();
         }
-        if (playerSelection > 0.2f && previousSelection < 0.2f)
+        if (playerSelection > 0.2f && previousSelectionGameOver < 0.2f)
         {
             selectedButton--;
             if (selectedButton < 0)
                 selectedButton = 1;
             UpdateSelectionGameOver();
         }
-        previousSelection = playerSelection;
+        previousSelectionGameOver = playerSelection;
 
         if (Input.GetAxis("Fire") != 0)
         {
-            if (playerSelection == 0)
+            if (selectedButton == 0)
             {
                 GameManager.Instance.Restart();
                 GamePlayGroup.SetActive(true);
@@ -152,7 +153,7 @@ public class MenuController : MonoBehaviour
 
         if (Input.GetAxis("Fire") != 0)
         {
-            if (playerSelection == 0)
+            if (selectedButton == 0)
             {
                 GameManager.Instance.Restart();
                 GamePlayGroup.SetActive(true);

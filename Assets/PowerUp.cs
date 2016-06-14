@@ -3,6 +3,7 @@ using System.Collections;
 
 public class PowerUp : MonoBehaviour
 {
+    public GameObject SpecialEffect;
 
     enum PowerUpType
     {
@@ -26,6 +27,8 @@ public class PowerUp : MonoBehaviour
             {
                 GameManager.Instance.AddLife();
             }
+
+            Destroy(Instantiate(SpecialEffect, transform.position, Quaternion.identity), 2.1f);
             //Suicide mission
             Destroy(gameObject);
         }

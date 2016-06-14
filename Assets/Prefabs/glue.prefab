@@ -138,6 +138,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cf357f23c2d24746bd82e151c3cf1c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SpecialEffect: {fileID: 1000010681667094, guid: 314e4ce89770c05458056589bc1b2a91,
+    type: 2}
   type: 0
   PowerUpTimer: 10
 --- !u!136 &136000013120208780

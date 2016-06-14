@@ -13,23 +13,32 @@ public class Highscoremanager
 
     private void LoadHighScore()
     {
-        if (!File.Exists(Application.dataPath + "/high.score"))
+        highscore = PlayerPrefs.GetInt("Score");
+        /*
+        try
         {
-            highscore = 0;
-            SaveHighscore();
-            return;
-        }
-
-        using (FileStream stream = File.OpenRead(Application.dataPath + "/high.score"))
-        {
-            using (StreamReader reader = new StreamReader(stream))
+            if (!File.Exists(Application.dataPath + "/high.score"))
             {
-                string input = reader.ReadToEnd();
-                int value = 0;
-                if (int.TryParse(input, out value))
-                    highscore = value;
+                highscore = 0;
+                SaveHighscore();
+                return;
+            }
+
+            using (FileStream stream = File.OpenRead(Application.dataPath + "/high.score"))
+            {
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    string input = reader.ReadToEnd();
+                    int value = 0;
+                    if (int.TryParse(input, out value))
+                        highscore = value;
+                }
             }
         }
+        catch (Exception e)
+        {
+            Debug.Log("Not working.");
+        }*/
     }
 
     private int highscore;
@@ -54,12 +63,22 @@ public class Highscoremanager
 
     public void SaveHighscore()
     {
-        using (FileStream stream = File.OpenWrite(Application.dataPath + "/high.score"))
+        PlayerPrefs.SetInt("Score", highscore);
+        /*
+        try
         {
-            using (StreamWriter writer = new StreamWriter(stream))
+
+            using (FileStream stream = File.OpenWrite(Application.dataPath + "/high.score"))
             {
-                writer.Write(highscore);
+                using (StreamWriter writer = new StreamWriter(stream))
+                {
+                    writer.Write(highscore);
+                }
             }
         }
+        catch (Exception e)
+        {
+            Debug.Log("Not working.");
+        }*/
     }
 }
