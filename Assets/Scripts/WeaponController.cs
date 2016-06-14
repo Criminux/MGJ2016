@@ -52,7 +52,15 @@ public class WeaponController : MonoBehaviour
     private float reloadingTimer;
 
     [SerializeField]
+    private float specialShootTime;
+    private float specialShootTimer;
+
+    [SerializeField]
     private Transform gunOutputPoint;
+
+    [SerializeField]
+    private float delay;
+    private float delaycounter;
 
     private Transform player;
 
@@ -60,25 +68,37 @@ public class WeaponController : MonoBehaviour
     {
         this.currentAmmunition = clipsize;
         audio = GetComponent<AudioSource>();
+        specialShootTimer = 0f;
     }
 
     // Update is called once per frame
     void Update()
     {
+        specialShootTimer -= Time.deltaTime;
+        delaycounter -= Time.deltaTime;
+        if (delaycounter <= 0)
+            delaycounter = delay;
+
         if (currentAmmunition > 0)
         {
-            if (shooting)
-            {
-                Shoot();
-            }
+            if (delaycounter == delay)
+                if (shooting)
+                {
+                    Shoot();
+                }
         }
         else
             Reload();
 
-        if (specialShooting)
+        if (specialShootTimer <= 0)
         {
-            ShootSpecial();
+            if (specialShooting)
+            {
+                ShootSpecial();
+                specialShootTimer = specialShootTime;
+            }
         }
+
 
     }
 

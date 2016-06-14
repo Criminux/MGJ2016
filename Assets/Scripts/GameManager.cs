@@ -16,17 +16,30 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private float enemyTimerValue;
     private float enemyTimer;
-    
+
 
     [SerializeField]
     private float scoreTimerValue;
     private float scoreTimer;
+
+    internal void AddLife()
+    {
+        if (lives < 5)
+            lives++;
+        UpdateLifeSprites();
+    }
 
     [SerializeField]
     private float spawnTimerReduceValue;
     private float spawnTimerReduce;
     [SerializeField]
     private int score;
+
+    [SerializeField]
+    private float PowerUpDelay;
+
+    [SerializeField]
+    private GameObject PowerUpPrefab;
 
     public int Score { get { return score; } }
 
@@ -59,6 +72,7 @@ public class GameManager : MonoBehaviour
 
         score = 0;
         highscoreManager = new Highscoremanager();
+        poweruptimer = PowerUpDelay;
     }
 
     void Start()
@@ -77,16 +91,22 @@ public class GameManager : MonoBehaviour
         enemyTimer -= Time.deltaTime;
         if (enemyTimer <= 0)
         {
-            Vector3 enemyPosition = GetRandomVector();
+            Vector3 enemyPosition = Vector3.zero;
+            Vector3 playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
+            do
+            {
+                enemyPosition = GetRandomVector();
+            } while (Vector3.Distance(enemyPosition, playerPosition) < 3);
+
             Instantiate(Enemy, enemyPosition, Quaternion.identity);
             enemyTimer = enemyTimerValue;
         }
     }
 
-    void spawnTimerReducer()
+    void EnemySpawnTimerReducer()
     {
         spawnTimerReduce -= Time.deltaTime;
-        if(spawnTimerReduce <= 0)
+        if (spawnTimerReduce <= 0)
         {
             enemyTimerValue = enemyTimerValue - 0.2f;
             if (enemyTimerValue <= 1)
@@ -106,6 +126,8 @@ public class GameManager : MonoBehaviour
             score += 100;
             scoreTimer = scoreTimerValue;
         }
+
+        MenuController.Instance.IngameScore.text = score.ToString("00000000000");
     }
 
     void Update()
@@ -114,16 +136,28 @@ public class GameManager : MonoBehaviour
             return;
 
         spawnEnemy();
+        spawnPowerUp();
         updateScore();
-        spawnTimerReducer();
+        EnemySpawnTimerReducer();
 
         Debug.Log(score);
+    }
+
+    private void spawnPowerUp()
+    {
+        poweruptimer -= Time.deltaTime;
+
+        if (poweruptimer < 0)
+        {
+            Instantiate(PowerUpPrefab, GetRandomVector(), Quaternion.identity);
+            poweruptimer = PowerUpDelay;
+        }
     }
 
     Vector3 GetRandomVector()
     {
         return new Vector3(Random.Range(-5f, 5f), 0, Random.Range(-5, 5f));
-        
+
     }
 
     public void RemoveLife()
@@ -135,6 +169,7 @@ public class GameManager : MonoBehaviour
     }
 
     private bool running;
+    private float poweruptimer;
 
     public bool Running
     {
@@ -160,6 +195,8 @@ public class GameManager : MonoBehaviour
         score = 0;
         lives = 5;
         enemyTimerValue = 5;
+        MenuController.Instance.GameOverGroup.SetActive(false);
+        UpdateLifeSprites();
     }
 
     private void GameOver()
@@ -170,7 +207,7 @@ public class GameManager : MonoBehaviour
 
         bool newHighscore = !highscoreManager.IsHighscoreGreater(score);
         int highscore = highscoreManager.Highscore;
-        
+
         MenuController.Instance.GameOverHighscore.text = newHighscore ? "new Highscore\n" + highscore.ToString("00000000000") : "Highscore\n" + highscore.ToString("00000000000");
         MenuController.Instance.GameOverScore.text = score.ToString("00000000000");
 

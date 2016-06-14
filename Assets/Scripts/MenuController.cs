@@ -26,7 +26,7 @@ public class MenuController : MonoBehaviour
     public Transform MainMenuQuit;
     public TextMesh MainMenuHighscore;
 
-
+    public TextMesh IngameScore;
 
     public TextMesh GameOverHighscore;
     public TextMesh GameOverScore;

@@ -39,8 +39,10 @@ public class EnemyBehaviour : MonoBehaviour
     {
         if (col.gameObject.CompareTag("Bullet"))
         {
-            
-            health -= 20f;
+            if (GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().PowerUpTimer > 0)
+                health -= 40f;
+            else
+                health -= 20f;
             Destroy(col.gameObject);
             
         }

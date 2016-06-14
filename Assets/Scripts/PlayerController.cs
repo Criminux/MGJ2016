@@ -18,15 +18,19 @@ public class PlayerController : MonoBehaviour
     private float moveVertical;
     private Vector3 initPosition;
 
+    private Animator animator;
 
     //Audiostuff
     [SerializeField]
     private AudioClip steps;
     new AudioSource audio;
 
+    public float PowerUpTimer { get; internal set; }
+
     // Use this for initialization
     void Start()
     {
+        animator = transform.GetChild(0).GetChild(0).GetComponent<Animator>();
         initPosition = transform.position;
         rb = GetComponent<Rigidbody>();
         CurrentGun.SetAssociatedPlayer(transform.GetChild(0));
@@ -47,8 +51,23 @@ public class PlayerController : MonoBehaviour
         if (!GameManager.Instance.Running)
         {
             rb.velocity = Vector3.zero;
+            CurrentGun.Shooting = false;
+            CurrentGun.SpecialShooting = false;
+            rotateHorizontal = 0;
+            rotateVertical = 0;
+            moveHorizontal = 0;
+            moveVertical = 0;
             return;
         }
+
+        animator.SetBool("moving", rb.velocity.magnitude > 0.1f);
+
+        PowerUpTimer -= Time.deltaTime;
+
+        //Dropdetection
+        if (transform.position.y < -3)
+            while (GameManager.Instance.Lives > 0)
+                GameManager.Instance.RemoveLife();
 
         CurrentGun.Shooting = Input.GetAxis("Fire") != 0;
         CurrentGun.SpecialShooting = Input.GetButtonDown("Fire2");
@@ -76,7 +95,7 @@ public class PlayerController : MonoBehaviour
 
     void Move()
     {
-        
+
 
         Vector3 movement = new Vector3(moveHorizontal, 0, moveVertical) * speed;
 
