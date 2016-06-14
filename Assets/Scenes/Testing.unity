@@ -314,6 +314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 061d993153600d144992fa20b54009aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shot: {fileID: 0}
   clipsize: 30
   currentAmmunition: 0
   Projectile: {fileID: 1000010966835670, guid: df7ea4775afbb4f42b159e93824e1b29, type: 2}
@@ -543,6 +544,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Enemy: {fileID: 1000013181722588, guid: 29f4edc6787400a48b48f2635eb44d7a, type: 2}
   enemyTimerValue: 5
+  scoreTimerValue: 5
+  spawnTimerReduceValue: 0
   score: 0
   lives: 5
   liveSprites:
@@ -551,18 +554,11 @@ MonoBehaviour:
   - {fileID: 977224643}
   - {fileID: 296370849}
   - {fileID: 557537934}
-  scoreTimerValue: 5
-  scoreMesh: {fileID: 1867960211}
 --- !u!4 &1185939801 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4000014137513202, guid: ce560887b3c0b9944845ae51772d834d,
     type: 2}
   m_PrefabInternal: {fileID: 987461663}
---- !u!102 &1867960211 stripped
-TextMesh:
-  m_PrefabParentObject: {fileID: 102000010455316300, guid: cd06172c84c4e004eb4d848401c350f1,
-    type: 2}
-  m_PrefabInternal: {fileID: 437564209}
 --- !u!1 &1905978846 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1000013991956534, guid: cd06172c84c4e004eb4d848401c350f1,
