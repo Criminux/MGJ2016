@@ -4,6 +4,14 @@ using System;
 
 public class WeaponController : MonoBehaviour
 {
+    //AudioStuff
+    [SerializeField]
+    private AudioClip shot;
+    AudioSource audio;
+
+
+
+
     private bool shooting;
 
     public bool Shooting
@@ -44,6 +52,7 @@ public class WeaponController : MonoBehaviour
     void Start()
     {
         this.currentAmmunition = clipsize;
+        audio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -76,5 +85,6 @@ public class WeaponController : MonoBehaviour
     {
         currentAmmunition--;
         Instantiate(Projectile, gunOutputPoint.position, player.rotation);
+        audio.PlayOneShot(shot, 0.5f);
     }
 }
