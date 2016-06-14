@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     private float rotateVertical;
     private float moveHorizontal;
     private float moveVertical;
+    private Vector3 initPosition;
 
 
     //Audiostuff
@@ -26,6 +27,7 @@ public class PlayerController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        initPosition = transform.position;
         rb = GetComponent<Rigidbody>();
         CurrentGun.SetAssociatedPlayer(transform.GetChild(0));
 
@@ -42,6 +44,12 @@ public class PlayerController : MonoBehaviour
 
     public void Update()
     {
+        if (!GameManager.Instance.Running)
+        {
+            rb.velocity = Vector3.zero;
+            return;
+        }
+
         CurrentGun.Shooting = Input.GetAxis("Fire") != 0;
         CurrentGun.SpecialShooting = Input.GetButtonDown("Fire2");
         rotateHorizontal = Input.GetAxis("HorizontalControllerRotation");
@@ -79,5 +87,10 @@ public class PlayerController : MonoBehaviour
             audio.Pause();
         }
         else { audio.UnPause(); }
+    }
+
+    internal void InitPosition()
+    {
+        this.transform.position = initPosition;
     }
 }

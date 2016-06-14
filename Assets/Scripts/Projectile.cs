@@ -11,6 +11,9 @@ public class Projectile : MonoBehaviour
 
     public void FixedUpdate()
     {
+        if (!GameManager.Instance.Running)
+            return;
+
         lifetime -= Time.fixedDeltaTime;
 
         if (lifetime <= 0)

@@ -49,7 +49,10 @@ public class EnemyBehaviour : MonoBehaviour
 
     void Update()
     {
-        if(health <= 0f)
+        if (!GameManager.Instance.Running)
+            return;
+
+        if (health <= 0f)
         {
             gameManager.EnemyKilled();
             Destroy(gameObject);

@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
+    private Highscoremanager highscoreManager;
 
     private static GameManager instance;
     public static GameManager Instance { get { return instance; } }
@@ -47,7 +50,6 @@ public class GameManager : MonoBehaviour
 
     public void Awake()
     {
-
         instance = this;
         enemyTimer = enemyTimerValue;
         scoreTimer = scoreTimerValue;
@@ -56,6 +58,12 @@ public class GameManager : MonoBehaviour
         audio = GetComponent<AudioSource>();
 
         score = 0;
+        highscoreManager = new Highscoremanager();
+    }
+
+    void Start()
+    {
+        MenuController.Instance.MainMenuHighscore.text = highscoreManager.Highscore.ToString("00000000000");
     }
 
     public void EnemyKilled()
@@ -102,6 +110,9 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        if (!running)
+            return;
+
         spawnEnemy();
         updateScore();
         spawnTimerReducer();
@@ -119,6 +130,55 @@ public class GameManager : MonoBehaviour
     {
         lives--;
         UpdateLifeSprites();
+        if (lives <= 0)
+            GameOver();
+    }
+
+    private bool running;
+
+    public bool Running
+    {
+        get { return running; }
+        set { running = value; }
+    }
+
+    public void Restart()
+    {
+        running = true;
+        PlayerController player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        player.InitPosition();
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject enemy in enemies)
+        {
+            Destroy(enemy);
+        }
+        GameObject[] bullets = GameObject.FindGameObjectsWithTag("Bullet");
+        foreach (GameObject bullet in bullets)
+        {
+            Destroy(bullet);
+        }
+        score = 0;
+        lives = 5;
+        enemyTimerValue = 5;
+    }
+
+    private void GameOver()
+    {
+        running = false;
+        MenuController.Instance.CurrentGameState = MenuController.States.GameOver;
+        MenuController.Instance.GameOverGroup.SetActive(true);
+
+        bool newHighscore = !highscoreManager.IsHighscoreGreater(score);
+        int highscore = highscoreManager.Highscore;
+        
+        MenuController.Instance.GameOverHighscore.text = newHighscore ? "new Highscore\n" + highscore.ToString("00000000000") : "Highscore\n" + highscore.ToString("00000000000");
+        MenuController.Instance.GameOverScore.text = score.ToString("00000000000");
+
+        if (newHighscore)
+        {
+            highscoreManager.SetHigherScore(score);
+            highscoreManager.SaveHighscore();
+        }
     }
 
     private void UpdateLifeSprites()
