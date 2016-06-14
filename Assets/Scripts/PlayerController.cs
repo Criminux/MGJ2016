@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private WeaponController CurrentGun;
     private bool shooting;
+    private bool specialShooting;
     private float rotateHorizontal;
     private float rotateVertical;
     private float moveHorizontal;
@@ -42,10 +43,13 @@ public class PlayerController : MonoBehaviour
     public void Update()
     {
         CurrentGun.Shooting = Input.GetAxis("Fire") != 0;
+        CurrentGun.SpecialShooting = Input.GetButtonDown("Fire2");
         rotateHorizontal = Input.GetAxis("HorizontalControllerRotation");
         rotateVertical = Input.GetAxis("VerticalControllerRotation");
         moveHorizontal = Input.GetAxis("HorizontalControllerMovement");
         moveVertical = Input.GetAxis("VerticalControllerMovement");
+
+
     }
 
     private void Rotate()

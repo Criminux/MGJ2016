@@ -9,10 +9,17 @@ public class WeaponController : MonoBehaviour
     private AudioClip shot;
     new AudioSource audio;
 
+    [SerializeField]
+    private GameObject weapon;
 
-
-
+    private bool specialShooting;
     private bool shooting;
+
+    public bool SpecialShooting
+    {
+        get { return specialShooting; }
+        set { specialShooting = value; }
+    }
 
     public bool Shooting
     {
@@ -68,6 +75,10 @@ public class WeaponController : MonoBehaviour
         else
             Reload();
 
+        if (specialShooting)
+        {
+            ShootSpecial();
+        }
 
     }
 
@@ -86,5 +97,10 @@ public class WeaponController : MonoBehaviour
         currentAmmunition--;
         Instantiate(Projectile, gunOutputPoint.position, player.rotation);
         audio.PlayOneShot(shot, 0.3f);
+    }
+
+    private void ShootSpecial()
+    {
+        Instantiate(weapon, gunOutputPoint.position, player.rotation);
     }
 }
