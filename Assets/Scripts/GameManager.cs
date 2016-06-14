@@ -40,6 +40,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private GameObject PowerUpPrefab;
+    [SerializeField]
+    private GameObject PowerUpPrefab2;
 
     public int Score { get { return score; } }
 
@@ -149,7 +151,15 @@ public class GameManager : MonoBehaviour
 
         if (poweruptimer < 0)
         {
-            Instantiate(PowerUpPrefab, GetRandomVector(), Quaternion.identity);
+            int rand = Random.Range(1, 3);
+            if (rand == 1)
+            {
+                Instantiate(PowerUpPrefab, GetRandomVector(), Quaternion.identity);
+
+            }
+            else {
+                Instantiate(PowerUpPrefab2, GetRandomVector(), Quaternion.identity);
+            }
             poweruptimer = PowerUpDelay;
         }
     }
