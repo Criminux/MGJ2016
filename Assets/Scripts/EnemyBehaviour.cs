@@ -22,6 +22,11 @@ public class EnemyBehaviour : MonoBehaviour
     private AudioClip steps;
     new AudioSource audio;
     
+    public void executeDamage()
+    {
+        health -= 100f;
+    }
+
     void Start()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
