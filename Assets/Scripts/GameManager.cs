@@ -24,6 +24,13 @@ public class GameManager : MonoBehaviour
     private float spawnTimerReduceValue;
     private float spawnTimerReduce;
 
+
+    //AudioStuff
+    [SerializeField]
+    private AudioClip die;
+    new AudioSource audio;
+
+
     public void Awake()
     {
 
@@ -32,11 +39,14 @@ public class GameManager : MonoBehaviour
         scoreTimer = scoreTimerValue;
         spawnTimerReduce = spawnTimerReduceValue;
         score = 0f;
+
+        audio = GetComponent<AudioSource>();
     }
 
     public void EnemyKilled()
     {
         score += 1000;
+        audio.PlayOneShot(die, 1f);
     }
 
     void spawnEnemy()

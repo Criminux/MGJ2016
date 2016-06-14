@@ -7,7 +7,7 @@ public class WeaponController : MonoBehaviour
     //AudioStuff
     [SerializeField]
     private AudioClip shot;
-    AudioSource audio;
+    new AudioSource audio;
 
 
 
@@ -85,6 +85,6 @@ public class WeaponController : MonoBehaviour
     {
         currentAmmunition--;
         Instantiate(Projectile, gunOutputPoint.position, player.rotation);
-        audio.PlayOneShot(shot, 0.5f);
+        audio.PlayOneShot(shot, 0.3f);
     }
 }
